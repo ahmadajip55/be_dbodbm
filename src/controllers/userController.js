@@ -5,31 +5,107 @@ module.exports = {
         try {
             const id = req.params.id
             const user = await userService.getUser(id)
-            res.json(user)         
+            if (!user){
+                res.status(404)
+                res.json({
+                    status: "failed",
+                    message: "user not found"
+                }) 
+            }
+            res.json({
+                status: "success",
+                data: user
+            })          
         } catch (error) {
             console.log(error)
-            res.json(error.message)
             res.status(400)
+            res.json({
+                status: "failed",
+                message: error.message
+            })
         }
     },
     async getUsers(req,res){
         try {
-            const user = await userService.getUsers()
-            res.json(user)         
+            const users = await userService.getUsers()
+            res.json({
+                status: "success",
+                data: users
+            })         
         } catch (error) {
             console.log(error)
-            res.json(error.message)
             res.status(400)
+            res.json({
+                status: "failed",
+                message: error.message
+            })
         }
     },
     async addUser(req,res){
         try {
-            const user = await userService.addUser(req.body)
-            res.json(user)         
+            const {id, fullName, userName} = await userService.addUser(req.body)
+            res.json({
+                status: "success",
+                data: {id, fullName, userName}
+            })         
         } catch (error) {
             console.log(error)
-            res.json(error.message)
             res.status(400)
+            res.json({
+                status: "failed",
+                message: error.message
+            })
+        }
+    },
+    async editUser(req,res){
+        try {
+            const id = req.params.id
+            const user = await userService.getUser(id)
+            if (!user){
+                res.status(404)
+                res.json({
+                    status: "failed",
+                    message: "user not found"
+                }) 
+            }
+            const userEdited = await userService.editUser(id, req.body)
+            console.log('userEdited', userEdited)
+            res.json({
+                status: "success",
+                data: userEdited
+            })        
+        } catch (error) {
+            console.log(error)
+            res.status(400)
+            res.json({
+                status: "failed",
+                message: error.message
+            })
+        }
+    },
+    async deleteUser(req,res){
+        try {
+            const id = req.params.id
+            const user = await userService.getUser(id)
+            if (!user){
+                res.status(404)
+                res.json({
+                    status: "failed",
+                    message: "user not found"
+                }) 
+            }
+            await userService.deleteUser(id)
+            res.json({
+                status: "success",
+                message: "user deleted"
+            })        
+        } catch (error) {
+            console.log(error)
+            res.status(400)
+            res.json({
+                status: "failed",
+                message: error.message
+            })
         }
     }
 }
