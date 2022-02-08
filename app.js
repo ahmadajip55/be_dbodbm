@@ -13,5 +13,5 @@ app.use('/user', userRoute);
 app.use('/auth', authRoute);
 
 app.listen(process.env.PORT || 8080, () => {
-    console.log("Server Running in Port : %d in %s mode", this.address().port, app.settings.env);
+    console.log("Server Running in Port : %d in %s mode", process.env.PORT || 8080, app.settings.env);
 });
