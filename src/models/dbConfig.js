@@ -13,9 +13,16 @@ if (process.env.DATABASE_URL) {
     db = new Sequelize(process.env.DATABASE_URL, {
         dialect: "postgres",
         protocol: "postgres",
+        native: true, 
         port: 5432,
         host: "<heroku host>",
-        logging: true //false
+        logging: true, //false
+        ssl: true,
+        dialectOptions: {
+            ssl: {
+              rejectUnauthorized: false,
+            }
+          }
     })
 }
 
