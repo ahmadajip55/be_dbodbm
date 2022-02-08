@@ -19,6 +19,13 @@
     "database": "dcm9272vodujmd",
     "host": "ec2-54-156-110-139.compute-1.amazonaws.com",
     "port": 5432,
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "logging": true,
+      "dialectOptions": {
+        "ssl": {
+          "rejectUnauthorized": false,
+          "require": true
+        }
+      }
   }
 }
