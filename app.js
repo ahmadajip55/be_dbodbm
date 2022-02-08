@@ -4,11 +4,6 @@ const app = express();
 
 require('dotenv').config();
 
-engines:{
-    "node": "0.8.x",
-    "npm": "1.1.x"
-  }
-
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
