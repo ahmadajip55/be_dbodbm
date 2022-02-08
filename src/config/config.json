@@ -20,6 +20,7 @@
     "host": "ec2-54-156-110-139.compute-1.amazonaws.com",
     "port": 5432,
     "dialect": "postgres",
+    "protocol": "postgres",
     "logging": true,
       "dialectOptions": {
         "ssl": {
