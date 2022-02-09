@@ -21,6 +21,7 @@ module.exports = {
             where: {userName: data.userName},
             attributes: ['id', 'fullName']
         })
+        console.log(user);
         if (user) {
             throw Error('username is already exist')
         }

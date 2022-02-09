@@ -43,13 +43,14 @@ module.exports = {
     },
     async addUser(req,res){
         try {
+            console.log(req.body);
             const {id, fullName, userName} = await userService.addUser(req.body)
             res.json({
                 status: "success",
                 data: {id, fullName, userName}
             })         
         } catch (error) {
-            console.log(error)
+            console.log("error DISINI", error)
             res.status(400)
             res.json({
                 status: "failed",
