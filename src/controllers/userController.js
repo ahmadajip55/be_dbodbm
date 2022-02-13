@@ -9,8 +9,9 @@ module.exports = {
                 res.status(404)
                 res.json({
                     status: "failed",
-                    message: "user not found"
-                }) 
+                    message: "User Not Found"
+                })
+                return
             }
             res.json({
                 status: "success",
@@ -65,8 +66,9 @@ module.exports = {
                 res.status(404)
                 res.json({
                     status: "failed",
-                    message: "user not found"
+                    message: "User Not Found"
                 }) 
+                return
             }
             const userEdited = await userService.editUser(id, req.body)
             console.log('userEdited', userEdited)
@@ -91,8 +93,9 @@ module.exports = {
                 res.status(404)
                 res.json({
                     status: "failed",
-                    message: "user not found"
+                    message: "User Not Found"
                 }) 
+                return
             }
             await userService.deleteUser(id)
             res.json({

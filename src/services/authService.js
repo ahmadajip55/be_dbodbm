@@ -12,9 +12,10 @@ module.exports = {
     },
     async doLogin({userName, password}) {
         const user = await this.getUserByUsername(userName)
-        if (bcrypt.compare(password, user.password)) {
-            return jwt.sign({ fullName: user.fullName, userName }, process.env.JWT_KEY);
+        const isPasswordValid = await bcrypt.compare(password, user.password)
+        if (!isPasswordValid) {
+            throw new Error("Password Wrong")
         }
-        return
+        return jwt.sign({ fullName: user.fullName, userName }, process.env.JWT_KEY);
     }
 }

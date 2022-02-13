@@ -9,17 +9,11 @@ module.exports = {
                 res.status(404)
                 res.json({
                     status: "failed",
-                    message: "user not found"
+                    message: "User Not Found"
                 }) 
+                return
             }
             const token = await authService.doLogin(req.body)
-            if (!token) {
-                res.status(400)
-                res.json({
-                    status: "failed",
-                    message: "password wrong"
-                }) 
-            }
             res.json({
                 status: "success",
                 token
