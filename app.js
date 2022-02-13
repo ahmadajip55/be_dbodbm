@@ -12,6 +12,6 @@ const authRoute = require('./src/routes/authRoute');
 app.use('/user', userRoute);
 app.use('/auth', authRoute);
 
-app.listen(8080, ()=>{
-    console.log('Server Running in Port : 8080');
+app.listen(process.env.PORT || 8080, () => {
+    console.log("Server Running in Port : %d in %s mode", process.env.PORT || 8080, app.settings.env);
 });
