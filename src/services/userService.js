@@ -38,14 +38,18 @@ module.exports = {
     async editUser(id, data) {
         const t = await db.transaction()
         let password
+        const user = await User.findOne({
+            where: {id},
+            attributes: ['id', 'fullName', 'password']
+        })
         if (data.password) {
+            const isPasswordValid = await bcrypt.compare(data.oldPassword, user.password)
+            if (!isPasswordValid) {
+                throw new Error("Password Wrong")
+            }
             const salt = await bcrypt.genSalt(10);
             password = await bcrypt.hash(data.password, salt);
         }
-        const user = User.findOne({
-            where: {id},
-            attributes: ['id', 'fullName']
-        })
         await User.update({
             fullName: data.fullName ? data.fullName : user.fullName,
             userName: data.userName ? data.userName : user.userName,
