@@ -16,6 +16,6 @@ module.exports = {
         if (!isPasswordValid) {
             throw new Error("Password Wrong")
         }
-        return jwt.sign({ fullName: user.fullName, userName }, process.env.JWT_KEY);
+        return jwt.sign({ id:user.id, fullName: user.fullName, userName }, process.env.JWT_KEY);
     }
 }

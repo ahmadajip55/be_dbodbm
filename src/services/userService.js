@@ -58,7 +58,7 @@ module.exports = {
         }, t)
         return User.findOne({
             where: {id},
-            attributes: ['id', 'fullName']
+            attributes: ['id', 'fullName', 'userName']
         })
     },
     async deleteUser(id) {

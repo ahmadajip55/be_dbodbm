@@ -1,4 +1,5 @@
 const userService = require('../services/userService');
+var jwt = require('jsonwebtoken');
 
 module.exports = {
     async getUserById(req,res){
@@ -70,10 +71,11 @@ module.exports = {
                 return
             }
             const userEdited = await userService.editUser(id, req.body)
-            console.log('userEdited', userEdited)
+            const token = await jwt.sign({ id: userEdited.id, fullName: userEdited.fullName, userName: userEdited.userName },
+                process.env.JWT_KEY);
             res.json({
                 status: "success",
-                data: userEdited
+                data: {...userEdited, token}
             })        
         } catch (error) {
             console.log(error)
