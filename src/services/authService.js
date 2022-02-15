@@ -6,7 +6,7 @@ module.exports = {
     async getUserByUsername(userName) {
         const user = await User.findOne({
             where: {userName},
-            attributes: ['id', 'fullName', 'password']
+            attributes: ['id', 'fullName', 'password', 'role']
         })
         return user
     },
@@ -16,6 +16,6 @@ module.exports = {
         if (!isPasswordValid) {
             throw new Error("Password Wrong")
         }
-        return jwt.sign({ id:user.id, fullName: user.fullName, userName }, process.env.JWT_KEY);
+        return jwt.sign({ id:user.id, fullName: user.fullName, role: user.role, userName }, process.env.JWT_KEY);
     }
 }

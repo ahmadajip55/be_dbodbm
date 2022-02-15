@@ -28,6 +28,7 @@ module.exports = {
         const salt = await bcrypt.genSalt(10);
         const password = await bcrypt.hash(data.password, salt);
         return User.create({
+            role: data.role,
             fullName: data.fullName,
             userName: data.userName,
             password,
@@ -40,7 +41,7 @@ module.exports = {
         let password
         const user = await User.findOne({
             where: {id},
-            attributes: ['id', 'fullName', 'password']
+            attributes: ['id', 'fullName', 'password', 'role']
         })
         if (data.password) {
             const isPasswordValid = await bcrypt.compare(data.oldPassword, user.password)

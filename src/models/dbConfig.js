@@ -1,6 +1,6 @@
 const { Sequelize } = require("sequelize");
 const UserModel = require('./User');
-
+const QuestionModel = require('./Question');
 
 let db = new Sequelize('db_dbodbm', 'root', '', {
     host: '127.0.0.1',
@@ -26,5 +26,6 @@ if (process.env.DATABASE_URL) {
 }
 
 const User = UserModel(db, Sequelize);
+const Question = QuestionModel(db, Sequelize)
  
-module.exports = { db, User };
+module.exports = { db, User, Question };

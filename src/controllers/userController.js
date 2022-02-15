@@ -71,8 +71,9 @@ module.exports = {
                 return
             }
             const userEdited = await userService.editUser(id, req.body)
-            const token = await jwt.sign({ id: userEdited.id, fullName: userEdited.fullName, userName: userEdited.userName },
-                process.env.JWT_KEY);
+            const token = await jwt.sign({ id: userEdited.id,
+                fullName: userEdited.fullName, userName: userEdited.userName,
+                role: userEdited.role}, process.env.JWT_KEY);
             res.json({
                 status: "success",
                 data: {...userEdited, token}
