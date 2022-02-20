@@ -1,29 +1,66 @@
 const { db, Question } = require('../models/dbConfig')
 
 module.exports = {
-    async getQuestions() {
-        const users = await Question.findAll({
+    async getQuestion(id) {
+        const question = await Question.findOne({
+            where: {id, isActive: true},
             attributes: ['id', 'formType', 'question', 'isActive']
         })
-        return users
+        return question
+    },
+    async getQuestions() {
+        const questions = await Question.findAll({
+            where: {isActive: true},
+            attributes: ['id', 'formType', 'question', 'isActive']
+        })
+        return questions
     },
     async getQuestionByFormType(data) {
         const {formType} = data
-        console.log('formType', formType, data)
-        return Question.findAll({
-            where: {formType: undefined},
+        const questions = await Question.findAll({
+            where: {formType: formType, isActive: true},
             attributes: ['id', 'formType', 'question', 'isActive']
         })
+        return questions
     },
     async addQuestion(data) {
         const t = await db.transaction()
         const createdDate = Date.now()
+        console.log(data)
         return Question.create({
             formType: data.formType,
             question: data.question,
             isActive: true,
             createdBy: data.createdBy,
             createdDate
+        }, t)
+    },
+    async editQuestion(id, data) {
+        const t = await db.transaction()
+        const question = await Question.findOne({
+            where: {id},
+            attributes: ['id', 'formType', 'question', 'isActive']
+        })
+        console.log('id, data', id, data, data.isActive === undefined, data.isActive === undefined ?  question.isActive : data.isActive)
+        await Question.update({
+            formType: data.formType ? data.formType : question.formType,
+            question: data.question ? data.question : question.question,
+            isActive: data.isActive === undefined ?  question.isActive : data.isActive,
+            modifiedBy: data.modifiedBy,
+            modifiedDate: Date.now()
+        },
+        {
+            where: {id}
+        }, t)
+        return Question.findOne({
+            where: {id},
+            attributes: ['id', 'formType', 'question', 'isActive']
+        })
+    },
+    async deleteQuestion(id) {
+        const t = await db.transaction()
+        await Question.destroy({
+            where: {id}
         }, t)
     }
 }

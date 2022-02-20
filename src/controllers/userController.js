@@ -43,6 +43,21 @@ module.exports = {
             })
         }
     },
+    async getUsersByRole(req,res) {
+        try {
+            const users = await userService.getUsersByRole(req.query)
+            res.json({
+                status: "success",
+                users
+            })         
+        } catch (error) {
+            res.status(400)
+            res.json({
+                status: "failed",
+                message: error.message
+            })
+        }
+    },
     async addUser(req,res){
         try {
             const {id, fullName, userName} = await userService.addUser(req.body)
@@ -76,7 +91,8 @@ module.exports = {
                 role: userEdited.role}, process.env.JWT_KEY);
             res.json({
                 status: "success",
-                data: {...userEdited, token}
+                user: {...userEdited},
+                token
             })        
         } catch (error) {
             console.log(error)
