@@ -25,7 +25,6 @@ module.exports = {
         return users
     },
     async addUser(data) {
-        const t = await db.transaction()
         const user = await User.findOne({
             where: {userName: data.userName, isActive: true},
             attributes: ['id', 'fullName']
@@ -44,18 +43,17 @@ module.exports = {
             isActive: true,
             createdBy: data.createdBy,
             createdDate
-        }, t)
+        })
     },
     async editUser(id, data) {
-        const t = await db.transaction()
         let password
         const user = await User.findOne({
             where: {id},
             attributes: ['id', 'fullName', 'password', 'role', 'isActive']
         })
         if (data.password) {
-            const isPasswordValid = await bcrypt.compare(data.oldPassword, user.password)
-            if (!isPasswordValid) {
+            const isPasswordValid = await bcrypt.compare(oldPassword, user.password)
+            if (oldPassword && !isPasswordValid) {
                 throw new Error("Password Wrong")
             }
             const salt = await bcrypt.genSalt(10);
@@ -66,22 +64,21 @@ module.exports = {
             userName: data.userName ? data.userName : user.userName,
             password: password ? password : user.password,
             role: data.role ? data.role : user.role,
-            isActive: data.isActive ? data.isActive : user.isActive,
+            isActive: data.isActive !== undefined ? data.isActive : user.isActive,
             modifiedBy: data.modifiedBy,
             modifiedDate: Date.now()
         },
         {
             where: {id}
-        }, t)
+        },)
         return User.findOne({
             where: {id},
             attributes: ['id', 'fullName', 'userName']
         })
     },
     async deleteUser(id) {
-        const t = await db.transaction()
         await User.destroy({
             where: {id}
-        }, t)
+        })
     }
 }

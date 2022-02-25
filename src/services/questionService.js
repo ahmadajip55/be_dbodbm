@@ -24,7 +24,6 @@ module.exports = {
         return questions
     },
     async addQuestion(data) {
-        const t = await db.transaction()
         const createdDate = Date.now()
         console.log(data)
         return Question.create({
@@ -33,10 +32,9 @@ module.exports = {
             isActive: true,
             createdBy: data.createdBy,
             createdDate
-        }, t)
+        })
     },
     async editQuestion(id, data) {
-        const t = await db.transaction()
         const question = await Question.findOne({
             where: {id},
             attributes: ['id', 'formType', 'question', 'isActive']
@@ -51,16 +49,15 @@ module.exports = {
         },
         {
             where: {id}
-        }, t)
+        })
         return Question.findOne({
             where: {id},
             attributes: ['id', 'formType', 'question', 'isActive']
         })
     },
     async deleteQuestion(id) {
-        const t = await db.transaction()
         await Question.destroy({
             where: {id}
-        }, t)
+        })
     }
 }
