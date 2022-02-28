@@ -1,6 +1,8 @@
 const { Sequelize } = require("sequelize");
 const UserModel = require('./User');
 const QuestionModel = require('./Question');
+const ReportModel = require('./Report');
+const FormModel = require('./Form');
 
 let db = new Sequelize('db_dbodbm', 'root', '', {
     host: '127.0.0.1',
@@ -26,6 +28,11 @@ if (process.env.DATABASE_URL) {
 }
 
 const User = UserModel(db, Sequelize);
-const Question = QuestionModel(db, Sequelize)
+const Question = QuestionModel(db, Sequelize);
+const Report = ReportModel(db, Sequelize);
+const Form = FormModel(db, Sequelize);
+
+User.hasMany(Report, {foreignKey: 'createdBy', sourceKey: 'id'});
+Report.belongsTo(User, {foreignKey: 'createdBy', targetKey: 'id'});
  
-module.exports = { db, User, Question };
+module.exports = { db, Sequelize, User, Question, Report, Form };

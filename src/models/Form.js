@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Form extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,26 +13,34 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  User.init({
+  Form.init({
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    userName: {
+    formType: {
       type: DataTypes.STRING,
-      field: 'user_name',
-      unique: true,
+      field: 'form_type',
       allowNull: false
     },
-    fullName: {
-      type: DataTypes.STRING,
-      field: 'full_name',
-      allowNull: true
+    reportId: {
+      type: DataTypes.INTEGER,
+      field: 'reportId',
+      allowNull: false
     },
-    password: {
-      type: DataTypes.STRING,
+    questionId: {
+      type: DataTypes.INTEGER,
+      field: 'questionId',
+      allowNull: false
+    },
+    isCheck: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
+    isActive: {
+      type: DataTypes.BOOLEAN,
       allowNull: false
     },
     createdDate: {
@@ -54,18 +62,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       field: 'modified_by',
       allowNull: true
-    },
-    role: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    isActive: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
     }
   }, {
     sequelize,
-    modelName: 'users',
+    modelName: 'forms',
   });
-  return User;
+  return Form;
 };

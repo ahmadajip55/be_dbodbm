@@ -4,10 +4,15 @@ const roleUserEnum = {
 }
 
 const formTypeEnum = {
-    FormDTRigForemost: 'DT Rig Foremost',
-    FormDTPersiapanPemboran: 'DT Persiapan Pengeboran',
-    FormTEHealthSafety: 'TE Health Safety',
-    FormTEAturanPemboran: 'TE Aturan Pemboran',
+    formDT: 'Form DT',
+    formTEHealthSafety: 'Form TE Health Safety',
+    formTEAturanPemboran: 'Form TE Aturan Pemboran',
 }
 
-export {roleUserEnum, formTypeEnum}
+const formTypeCode = {
+    FormDT: 'formDT',
+    FormTEHealthSafety: 'formTEHealthSafety',
+    FormTEAturanPemboran: 'formTEAturanPemboran',
+}
+
+module.exports = {roleUserEnum, formTypeEnum, formTypeCode}

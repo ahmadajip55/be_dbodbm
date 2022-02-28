@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const { question } = require('../controllers');
+const { questionController } = require('../controllers/index');
 
-router.post('/', question.addQuestion);
-router.get('/all', question.getQuestions);
-router.get('/', question.getQuestionByFormType);
-router.delete('/:id', question.deleteQuestion);
-router.patch('/:id', question.editQuestion);
+router.post('/', questionController.addQuestion);
+router.get('/all', questionController.getQuestions);
+router.get('/', questionController.getQuestionByFormType);
+router.delete('/:id', questionController.deleteQuestion);
+router.patch('/:id', questionController.editQuestion);
 
 module.exports = router;

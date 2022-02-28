@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const basename = path.basename(__filename);
-const controller = {};
+const service = {};
 
 fs
 .readdirSync(__dirname)
@@ -11,8 +11,8 @@ fs
 .forEach(file => {
   const model = require(path.join(__dirname, file));
   const instanceName = file.split('.')[0]
-  controller[instanceName] = model;
+  service[instanceName] = model;
   //console.log('Load Service...', instanceName)
 });
 
-module.exports = controller;
+module.exports = service;

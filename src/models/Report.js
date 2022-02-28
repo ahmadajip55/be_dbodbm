@@ -2,8 +2,9 @@
 const {
   Model
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Report extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,26 +14,54 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  User.init({
+  Report.init({
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    userName: {
+    formType: {
       type: DataTypes.STRING,
-      field: 'user_name',
-      unique: true,
+      field: 'form_type',
       allowNull: false
     },
-    fullName: {
+    team: {
       type: DataTypes.STRING,
-      field: 'full_name',
-      allowNull: true
+      field: 'team',
+      allowNull: false
     },
-    password: {
+    leader: {
       type: DataTypes.STRING,
+      field: 'leader',
+      allowNull: false
+    },
+    driller: {
+      type: DataTypes.STRING,
+      field: 'driller',
+      allowNull: false
+    },
+    member1: {
+      type: DataTypes.STRING,
+      field: 'member1',
+      allowNull: false
+    },
+    member2: {
+      type: DataTypes.STRING,
+      field: 'member2',
+      allowNull: false
+    },
+    note: {
+      type: DataTypes.STRING,
+      field: 'note',
+      allowNull: false
+    },
+    score: {
+      type: DataTypes.DECIMAL,
+      allowNull: false
+    },
+    isActive: {
+      type: DataTypes.BOOLEAN,
       allowNull: false
     },
     createdDate: {
@@ -54,18 +83,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       field: 'modified_by',
       allowNull: true
-    },
-    role: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    isActive: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
     }
   }, {
     sequelize,
-    modelName: 'users',
+    modelName: 'reports',
   });
-  return User;
+  return Report;
 };
