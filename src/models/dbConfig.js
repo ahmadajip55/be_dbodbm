@@ -16,7 +16,7 @@ if (process.env.DATABASE_URL) {
         dialect: "postgres",
         protocol: "postgres",
         port: 5432,
-        host: "<heroku host>",
+        host: "ec2-54-156-110-139.compute-1.amazonaws.com",
         logging: true, //false
         dialectOptions: {
             ssl: {
