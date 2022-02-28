@@ -1,27 +1,26 @@
 'use strict';
+
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('users', {
+  async up (queryInterface, Sequelize) {
+    await queryInterface.createTable('questions', {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false
       },
-      userName: {
+      formType: {
         type: DataTypes.STRING,
-        field: 'user_name',
-        unique: true,
+        field: 'form_type',
         allowNull: false
       },
-      fullName: {
-        type: DataTypes.STRING,
-        field: 'full_name',
-        allowNull: true
+      question: {
+          type: DataTypes.STRING,
+          allowNull: false
       },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false
+      isActive: {
+          type: DataTypes.BOOLEAN,
+          allowNull: false
       },
       createdDate: {
         type: DataTypes.DATE,
@@ -42,18 +41,11 @@ module.exports = {
         type: DataTypes.STRING,
         field: 'modified_by',
         allowNull: true
-      },
-      role: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      isActive: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
       }
     });
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('users');
+
+  async down (queryInterface, Sequelize) {
+    await queryInterface.dropTable('questions');
   }
 };

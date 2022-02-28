@@ -48,7 +48,7 @@ module.exports = {
       }]
     })
   },
-  async downloadReport(id) {
+  async downloadReport(id=1) {
     const queryReport = `SELECT form_type, team, leader, driller, member1,
       member2, note, score, DATE_FORMAT(created_date, "%d %M %Y %T")
       as created_date,
