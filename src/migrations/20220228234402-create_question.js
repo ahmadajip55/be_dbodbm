@@ -4,41 +4,41 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('questions', {
       id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false
       },
       formType: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         field: 'form_type',
         allowNull: false
       },
       question: {
-          type: DataTypes.STRING,
+          type: Sequelize.STRING,
           allowNull: false
       },
       isActive: {
-          type: DataTypes.BOOLEAN,
+          type: Sequelize.BOOLEAN,
           allowNull: false
       },
       createdDate: {
-        type: DataTypes.DATE,
+        type: Sequelize.DATE,
         field: 'created_date',
         allowNull: false
       },
       createdBy: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         field: 'created_by',
         allowNull: false
       },
       modifiedDate: {
-        type: DataTypes.DATE,
+        type: Sequelize.DATE,
         field: 'modified_date',
         allowNull: true
       },
       modifiedBy: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         field: 'modified_by',
         allowNull: true
       }
