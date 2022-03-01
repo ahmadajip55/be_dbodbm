@@ -58,7 +58,7 @@ module.exports = {
         allowNull: false
       },
       createdBy: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         field: 'created_by',
         allowNull: false
       },

@@ -70,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     createdBy: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       field: 'created_by',
       allowNull: false
     },
