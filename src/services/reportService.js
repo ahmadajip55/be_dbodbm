@@ -31,6 +31,20 @@ module.exports = {
     })
     return Report.findOne({where:{id:res.id}})
   },
+  async getReportById(id) {
+    return Report.findOne({
+      where: {
+        id
+      },
+      attributes: ['id', 'formType', 'team', 'leader', 'driller',
+        'member1', 'member2', 'note', 'score', 'createdDate'
+      ],
+      include: [{
+        model: User,
+        attributes: ['fullName']
+      }]
+    })
+  },
   async getReportByFormType(formType) {
     return Report.findAll({
       where: {

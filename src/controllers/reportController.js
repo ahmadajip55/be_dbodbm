@@ -37,9 +37,13 @@ module.exports = {
   async downloadReport(req, res) {
     try {
       const id = req.params.id
-      const report = await reportService.downloadReport(id)
-      res.attachment('output.xlsx')
-      res.send(report)         
+      const file = await reportService.downloadReport(id)
+      const report = await reportService.getReportById(id)
+      res.json({
+        status: "successed",
+        report,
+        file: file.toString('base64')
+    })        
     } catch (error) {
       console.log(error)
       res.status(400)
