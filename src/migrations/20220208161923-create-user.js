@@ -33,6 +33,12 @@ module.exports = {
         field: 'created_by',
         allowNull: false
       },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
+      },
       modifiedDate: {
         type: Sequelize.DATE,
         field: 'modified_date',
