@@ -16,7 +16,7 @@ module.exports = {
       member1: data.profile.contributor1,
       member2: data.profile.contributor2,
       note: data.notes,
-      score: '',
+      score: 0,
       isActive: true,
       createdDate: data.createdAt,
       createdBy: data.createdBy.id
