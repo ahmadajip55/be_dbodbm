@@ -62,7 +62,7 @@ module.exports = {
       },
       {
         model: Form,
-        attributes: ['questionId', 'icCheck']
+        attributes: ['questionId', 'isCheck']
       }]
     })
   },
