@@ -1,8 +1,8 @@
-const { db, Sequelize, Report, Form, User } = require('../models/dbConfig');
+const { db, Sequelize, Report, Form, User, Question } = require('../models/dbConfig');
 const { Op } = require('@sequelize/core');
 const XlsxPopulate = require('xlsx-populate');
 const path = require('path');
-const {formTypeEnum} = require('../enums/Enums')
+const {formTypeEnum} = require('../enums/Enums');
 
 const templateReport = path.join(__dirname, '../resources/report.xlsx');
 
@@ -62,7 +62,11 @@ module.exports = {
       },
       {
         model: Form,
-        attributes: ['questionId', 'isCheck']
+        attributes: ['questionId', 'isCheck'],
+        include: [{
+          model: Question,
+          attributes: ['question'],
+        }]
       }]
     })
   },
@@ -76,21 +80,42 @@ module.exports = {
     await Promise.all([])
   },
   async downloadReport(id=1) {
-    const queryReport = `SELECT form_type, team, leader, driller, member1,
-      member2, note, score, created_date,
-      (SELECT full_name FROM users where id = reports.created_by)
-      AS userName FROM reports reports
-      WHERE reports.id = ${id}  
-    `
-    const queryForm = `SELECT questionId,
-      isCheck as checklist FROM forms
-      WHERE forms.reportId = ${id}  
-    `
-    const pResReport = db.query(queryReport, { type: Sequelize.QueryTypes.SELECT })
-    const pResForm = db.query(queryForm, { type: Sequelize.QueryTypes.SELECT })
-    const [resReport, resForm] = await Promise.all([pResReport, pResForm])
-    const report = resReport[0]
-    const forms = resForm
+    // const queryReport = `SELECT form_type, team, leader, driller, member1,
+    //   member2, note, score, created_date,
+    //   (SELECT full_name FROM users where id = reports.created_by)
+    //   AS userName FROM reports reports
+    //   WHERE reports.id = ${id}  
+    // `
+    // const queryForm = `SELECT questionId,
+    //   isCheck as checklist FROM forms
+    //   WHERE forms.reportId = ${id}  
+    // `
+    // const pResReport = db.query(queryReport, { type: Sequelize.QueryTypes.SELECT })
+    // const pResForm = db.query(queryForm, { type: Sequelize.QueryTypes.SELECT })
+    // const [resReport, resForm] = await Promise.all([pResReport, pResForm])
+    // const report = resReport[0]
+    // const forms = resForm
+
+    const forms = Report.findAll({
+      where: {
+        formType: {
+          id, isActive: true
+        }
+      },
+      attributes: ['formType', 'team', 'leader', 'driller',
+        'member1', 'member2', 'note', 'score', 'createdDate'
+      ],
+      include: [
+        {
+          model: Form,
+          attributes: ['id', 'isCheck'],
+          include: [{
+            model: Question,
+            attributes: ['question'],
+          }]
+        }
+      ]
+    })
 
     const sheetName = 'Sheet1'
     const dataKeyReport = 'report'
