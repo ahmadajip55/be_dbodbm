@@ -78,9 +78,8 @@ module.exports = {
       AS userName FROM reports reports
       WHERE reports.id = ${id}  
     `
-    const queryForm = `SELECT 
+    const queryForm = `SELECT questionId,
       isCheck as checklist FROM forms
-      INNER JOIN questions ON forms.questionId = questions.id
       WHERE forms.reportId = ${id}  
     `
     const pResReport = db.query(queryReport, { type: Sequelize.QueryTypes.SELECT })
