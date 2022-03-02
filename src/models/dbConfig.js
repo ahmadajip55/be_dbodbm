@@ -34,5 +34,7 @@ const Form = FormModel(db, Sequelize);
 
 User.hasMany(Report, {foreignKey: 'createdBy', sourceKey: 'id'});
 Report.belongsTo(User, {foreignKey: 'createdBy', targetKey: 'id'});
+Report.hasMany(Form, {foreignKey: 'reportId', targetKey: 'id'});
+Form.belongsTo(Report, {foreignKey: 'reportId', sourceKey: 'id'});
  
 module.exports = { db, Sequelize, User, Question, Report, Form };

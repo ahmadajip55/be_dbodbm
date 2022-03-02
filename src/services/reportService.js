@@ -59,6 +59,10 @@ module.exports = {
       include: [{
         model: User,
         attributes: ['fullName']
+      },
+      {
+        model: Form,
+        attributes: ['questionId', 'icCheck']
       }]
     })
   },
