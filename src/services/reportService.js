@@ -78,7 +78,7 @@ module.exports = {
       AS userName FROM reports reports
       WHERE reports.id = ${id}  
     `
-    const queryForm = `SELECT (SELECT question FROM
+    const queryForm = `SELECT EXISTS (SELECT question FROM
       questions WHERE id = forms.questionId) as question,
       isCheck as checklist FROM forms forms
       WHERE forms.reportId = ${id}  
