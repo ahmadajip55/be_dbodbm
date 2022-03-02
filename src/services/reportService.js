@@ -65,7 +65,7 @@ module.exports = {
         attributes: ['questionId', 'isCheck'],
         include: [{
           model: Question,
-          attributes: ['question'],
+          attributes: [['question', 'data']],
         }]
       }]
     })
