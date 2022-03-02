@@ -73,15 +73,16 @@ module.exports = {
   },
   async downloadReport(id=1) {
     const queryReport = `SELECT form_type, team, leader, driller, member1,
-      member2, note, score, created_date,
+      member2, note, score, DATE_FORMAT(created_date, "%d %M %Y %T")
+      as created_date,
       (SELECT full_name FROM users where id = reports.created_by)
       AS userName FROM reports reports
-      WHERE reports.id = ${id};
+      WHERE reports.id = ${id}  
     `
     const queryForm = `SELECT (SELECT question FROM
       questions WHERE id = forms.questionId) as question,
       isCheck as checklist FROM forms forms
-      WHERE forms.reportId = ${id};
+      WHERE forms.reportId = ${id}  
     `
     const pResReport = db.query(queryReport, { type: Sequelize.QueryTypes.SELECT })
     const pResForm = db.query(queryForm, { type: Sequelize.QueryTypes.SELECT })
