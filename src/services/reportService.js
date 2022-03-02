@@ -62,6 +62,15 @@ module.exports = {
       }]
     })
   },
+  async deleteReport(id) {
+    const pdeleteReport = Report.destroy({
+      where: {id}
+    })
+    const pdeleteForm = Form.destroy({
+      where: {reportId: id}
+    })
+    await Promise.all([])
+  },
   async downloadReport(id=1) {
     const queryReport = `SELECT form_type, team, leader, driller, member1,
       member2, note, score, DATE_FORMAT(created_date, "%d %M %Y %T")

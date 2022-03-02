@@ -52,5 +52,22 @@ module.exports = {
           message: error.message
       })
     }
+  },
+  async deleteReport(req, res) {
+    try {
+      const id = req.params.id
+      await reportService.deleteReport(id)
+      res.json({
+        status: "successed",
+        message: "report deleted"
+    })        
+    } catch (error) {
+      console.log(error)
+      res.status(400)
+      res.json({
+          status: "failed",
+          message: error.message
+      })
+    }
   }
 }
