@@ -73,8 +73,7 @@ module.exports = {
   },
   async downloadReport(id=1) {
     const queryReport = `SELECT form_type, team, leader, driller, member1,
-      member2, note, score, DATE_FORMAT(created_date, "%d %M %Y %T")
-      as created_date,
+      member2, note, score, created_date,
       (SELECT full_name FROM users where id = reports.created_by)
       AS userName FROM reports reports
       WHERE reports.id = ${id}  
