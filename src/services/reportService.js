@@ -21,7 +21,7 @@ module.exports = {
       createdDate: data.createdAt,
       createdBy: data.createdBy.id
     })
-    const score = await this._generateForm(data, res.id)
+    const score = await this._generateForm(data)
     Report.update({
       score: score
     }, {
@@ -154,7 +154,7 @@ module.exports = {
 
     return workBook.outputAsync();
   },
-  async _generateForm(data, reportId) {
+  async _generateForm(data) {
     const {form, createdBy, createdAt} = data
     let score = 0
     let questionCount = 0
