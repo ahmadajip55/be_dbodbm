@@ -8,7 +8,6 @@ const templateReport = path.join(__dirname, '../resources/report.xlsx');
 
 module.exports = {
   async saveReport(data) {
-    console.log('data ==== ', data)
     const res = await Report.create({
       formType: data.type,
       team: data.team.label,
@@ -23,7 +22,6 @@ module.exports = {
       createdBy: data.createdBy.id
     })
     const score = await this._generateForm(data, res.id)
-    console.log('SCORE ====', score)
     Report.update({
       score: score
     }, {
@@ -165,7 +163,6 @@ module.exports = {
       value.forEach(element => {
         const form = {
           formType: key,
-          reportId,
           questionId: element.id,
           isCheck: element.isChecked,
           isActive: true,
