@@ -10,7 +10,6 @@ module.exports = {
     },
     async getQuestions() {
         const questions = await Question.findAll({
-            where: {isActive: true},
             attributes: ['id', 'formType', 'question', 'isActive']
         })
         return questions

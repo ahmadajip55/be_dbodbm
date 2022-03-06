@@ -43,6 +43,23 @@ module.exports = {
         status: "successed",
         report,
         file: file.toString('base64')
+      })
+    } catch (error) {
+      console.log(error)
+      res.status(400)
+      res.json({
+          status: "failed",
+          message: error.message
+      })
+    }
+  },
+  async getReportById(req, res) {
+    try {
+      const id = req.params.id
+      const report = await reportService.getReportById(id)
+      res.json({
+        status: "successed",
+        report
     })        
     } catch (error) {
       console.log(error)

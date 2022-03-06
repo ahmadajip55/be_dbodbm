@@ -1,4 +1,4 @@
-const { db, Sequelize, Report, Form, User, Question } = require('../models/dbConfig');
+const { Report, Form, User, Question } = require('../models/dbConfig');
 const { Op } = require('@sequelize/core');
 const XlsxPopulate = require('xlsx-populate');
 const path = require('path');
@@ -79,39 +79,25 @@ module.exports = {
     })
     await Promise.all([])
   },
-  async downloadReport(id=1) {
-    // const queryReport = `SELECT form_type, team, leader, driller, member1,
-    //   member2, note, score, created_date,
-    //   (SELECT full_name FROM users where id = reports.created_by)
-    //   AS userName FROM reports reports
-    //   WHERE reports.id = ${id}  
-    // `
-    // const queryForm = `SELECT questionId,
-    //   isCheck as checklist FROM forms
-    //   WHERE forms.reportId = ${id}  
-    // `
-    // const pResReport = db.query(queryReport, { type: Sequelize.QueryTypes.SELECT })
-    // const pResForm = db.query(queryForm, { type: Sequelize.QueryTypes.SELECT })
-    // const [resReport, resForm] = await Promise.all([pResReport, pResForm])
-    // const report = resReport[0]
-    // const forms = resForm
-
-    const forms = Report.findAll({
+  async downloadReport(id) {
+    let report = await Report.findOne({
       where: {
-        formType: {
-          id, isActive: true
-        }
+        id
       },
       attributes: ['formType', 'team', 'leader', 'driller',
         'member1', 'member2', 'note', 'score', 'createdDate'
       ],
       include: [
         {
+          model: User,
+          attributes: ['fullName']
+        },
+        {
           model: Form,
-          attributes: ['id', 'isCheck'],
+          attributes: ['isCheck'],
           include: [{
             model: Question,
-            attributes: ['question'],
+            attributes: ['id', 'question'],
           }]
         }
       ]
@@ -121,48 +107,49 @@ module.exports = {
     const dataKeyReport = 'report'
     const startIndex = 15
 
-    const workBook = await XlsxPopulate.fromFileAsync(templateReport)
+    report = JSON.parse(JSON.stringify(report))
+
+    const workBook = await XlsxPopulate.fromFileAsync(templateReport);
 
     let columnName
     let rowName
-    forms.forEach((row, index) => {
-      let rowIndex = parseFloat(startIndex) + parseFloat(index)
-      Object.keys(row).forEach((key) => {
-        let value = row[key];
-        if (key === 'question') {
-          const range = workBook.sheet(sheetName).range(`A${rowIndex}:D${rowIndex}`);
-          range.value(value);
-          range.merged(true);
-          range.style('wrapText', true);
-          range.style('border', true);
-        }
-        if (key === 'checklist') {
-          const range = workBook.sheet(sheetName).cell(`E${rowIndex}`).value(value !== null ? value === 1 ? 'Yes' : 'No' : '');
-          range.style({horizontalAlignment: "center", verticalAlignment: "center", })
-          range.style('border', true);
-        }
-      })
-    })
-
-    columnName = ''
-    rowName = ''
     Object.keys(report).forEach((key) => {
       let value = report[key];
       let defineName = `${dataKeyReport}.${key}`
       if (key === 'user') {
-        key = 'fullName'
-        value = report[user][key];
-        defineName = `${dataKeyReport}.${key}`
+        value = report[key]['fullName'];
+        defineName = `${dataKeyReport}.${'fullName'}`
       }
-      if (key === 'form_type') {
+      if (key === 'formType') {
         value = formTypeEnum[value]
       }
       let wBookDefineName = workBook.definedName(defineName)
       if(wBookDefineName && wBookDefineName.columnName() ){
         columnName = wBookDefineName.columnName();
         rowName = wBookDefineName.rowNumber();
+        workBook.sheet(sheetName).cell(`${columnName}${rowName}`).value(value !== null ? value : '');
       }
-      workBook.sheet(sheetName).cell(`${columnName}${rowName}`).value(value !== null ? value : '');
+    })
+
+    columnName = ''
+    rowName = ''
+    report.forms.forEach((row, index) => {
+      let rowIndex = parseFloat(startIndex) + parseFloat(index)
+      Object.keys(row).forEach((key) => {
+        let value = row[key];
+        if (key === 'question') {
+          const range = workBook.sheet(sheetName).range(`A${rowIndex}:D${rowIndex}`);
+          range.value(value.question);
+          range.merged(true);
+          range.style('wrapText', true);
+          range.style('border', true);
+        }
+        if (key === 'isCheck') {
+          const range = workBook.sheet(sheetName).cell(`E${rowIndex}`).value(value !== null ? value === true ? 'Yes' : 'No' : '');
+          range.style({horizontalAlignment: "center", verticalAlignment: "center", })
+          range.style('border', true);
+        }
+      })
     })
 
     return workBook.outputAsync();
