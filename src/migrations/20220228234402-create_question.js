@@ -11,7 +11,7 @@ module.exports = {
       },
       formType: {
         type: Sequelize.STRING,
-        field: 'form_types',
+        field: 'form_type',
         allowNull: false
       },
       question: {
